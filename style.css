@@ -151,11 +151,6 @@
     }
 
     /* check */
-
-    .card-input:checked + .card {
-        transform: rotateY(180deg);
-    }
-
     .card-input[data-value="A"]:checked ~ .card-input[data-value="A"]:checked + .card {
         outline: 3px solid green;
     }

@@ -20,13 +20,16 @@
             shuffled.forEach(card => grid.appendChild(card));
         }
 
+        // Checken of de kaarten geluik zijn aan elkaar
         let firstCard = null;
         let secondCard = null;
         let lockBoard = false;
 
-        function flipCard(){
+        function flipCard(event){
+            event.preventDefault()
             if (lockBoard) return;
             if (this == firstCard) return;
+            
 
             this.classList.add('flipped');
 
@@ -34,8 +37,10 @@
                 firstCard = this;
                 return;
             }
+            
             secondCard = this;
-
+            lockBoard = true;
+            
             checkForMatch();
         }
 
@@ -44,19 +49,20 @@
             isMatch ? handleMatch() : handleMismatch();
         }
 
+        function handleMismatch() {
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped')
+                firstCard.querySelector('.card-input').checked = false;
+                secondCard.querySelector('.card-input').checked = false;
+                resetBoard();
+            }, 1000);
+        }
+
         function handleMatch (){
             firstCard.removeEventListener('click', flipCard);
             secondCard.removeEventListener('click', flipCard);
             resetBoard();
-        }
-
-        function handleMismatch() {
-            lockBoard = true;
-            setTimeout(() => {
-                firstCard.classList.remove('flipped');
-                secondCard.classList.remove('flipped');
-                resetBoard();
-            }, 1000);
         }
             
         function resetBoard (){
